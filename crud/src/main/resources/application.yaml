@@ -1,1 +1,27 @@
-spring.application.name=KOTLIN-STUDY
+spring:
+  application:
+    name: KOTLIN-STUDY
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    platform: h2
+    h2:
+      console:
+        enabled: true
+        path: /h2-console
+    jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          show_sql: true
+          format_sql: true
+    logging:
+      level:
+        org:
+          springframework:
+            security: DEBUG
+            web: DEBUG
