@@ -26,3 +26,7 @@ spring:
         springframework:
           security: DEBUG
           web: DEBUG
+
+secret:
+  key: "secret-teste"
+  expiration: 90000000
