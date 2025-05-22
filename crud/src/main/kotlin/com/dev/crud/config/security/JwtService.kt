@@ -1,4 +1,4 @@
-package com.dev.crud.security
+package com.dev.crud.config.security
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
@@ -12,8 +12,8 @@ import javax.crypto.SecretKey
 
 @Service
 class JwtService(
-    @Value(value = "\${secret.key}") private val secretKey: String,
-    @Value(value = "\${secret.expiration") private val expiration: Long
+    @Value("\${secret.key}") private val secretKey: String,
+    @Value("\${secret.expiration}") private val expiration: Long
 ) {
 
     fun extractUsername(token: String): String? {
@@ -37,7 +37,7 @@ class JwtService(
             .payload
     }
 
-    fun generateTokenBuilder(extraClaims: Map<String, Any>, userDetails: UserDetails) : String {
+    fun generateTokenBuilder(extraClaims: Map<String, Any>, userDetails: UserDetails): String {
         return buildToken(extraClaims, userDetails, expiration)
     }
 
@@ -66,7 +66,6 @@ class JwtService(
     }
 
 
-
     fun isTokenValid(token: String, userDetails: UserDetails): Boolean {
         val username = extractUsername(token)
         return username.equals(userDetails.username) && !isTokenExpired(token)
@@ -76,13 +75,13 @@ class JwtService(
         return extractExpiration(token).before(Date())
     }
 
-    private fun extractExpiration (token:String): Date {
+    private fun extractExpiration(token: String): Date {
         return extractClaim(token, Claims::getExpiration)
     }
 
 
     private fun getSignInKey(): SecretKey {
-        val keyBytes : ByteArray = Decoders.BASE64.decode(secretKey)
+        val keyBytes: ByteArray = Decoders.BASE64.decode(secretKey)
         return Keys.hmacShaKeyFor(keyBytes)
     }
 }

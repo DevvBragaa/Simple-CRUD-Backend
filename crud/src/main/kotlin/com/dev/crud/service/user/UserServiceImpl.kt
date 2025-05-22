@@ -1,4 +1,4 @@
-package com.dev.crud.service
+package com.dev.crud.service.user
 
 import com.dev.crud.domain.User
 import com.dev.crud.dto.UserDto
@@ -11,35 +11,48 @@ import org.springframework.stereotype.Service
 
 
 @Service
-class UserService (
+class UserServiceImpl(
     private val repository: UserRepository,
     private val mapper: UserFormMapper
-) {
+) : UserService {
 
     private val bcrypt = BCryptPasswordEncoder()
 
-    fun createUser(dto: UserDto): Long {
-        validationDto(dto)
-        val user = mapper.map(dto)
+
+    override fun addUser(userDto: UserDto): Long {
+        validateDto(userDto)
+        val user = mapper.map(userDto)
         criptografarSenha(user)
         val savedObject = repository.save(user)
         return savedObject.id ?: throw InternalServerErrorException("Error saving user")
     }
 
+    override fun putuser(userDto: UserDto) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteUser(id: Long) {
+        TODO("Not yet implemented")
+    }
+
+
+
     private fun criptografarSenha(obj: User) {
-        if(obj.password.isNullOrBlank()){
+
+        if (obj.passCode.isNullOrBlank()) {
             throw BadRequestException("The passowrd cannot be null")
-        }else{
+        } else {
             obj.apply {
-                password = bcrypt.encode(obj.password)
+                passCode = bcrypt.encode(obj.passCode)
             }
         }
     }
 
-    private fun validationDto(dto: UserDto) {
+    private fun validateDto(dto: UserDto) {
         val user = repository.findByEmail(dto.email)
-        if(user != null){
+        if (user != null) {
             throw BadRequestException("user already registered")
         }
     }
+
 }
