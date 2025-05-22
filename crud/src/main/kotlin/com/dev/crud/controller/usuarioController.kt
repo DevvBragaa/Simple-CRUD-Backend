@@ -1,7 +1,7 @@
 package com.dev.crud.controller
 
 import com.dev.crud.dto.UserDto
-import com.dev.crud.service.UserService
+import com.dev.crud.service.user.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -19,8 +19,8 @@ class usuarioController (
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createUser(
-        @RequestBody dto: UserDto
+        @RequestBody userDto: UserDto
     ): Long{
-        return service.createUser(userDto = dto)
+        return service.addUser(userDto = userDto)
     }
 }

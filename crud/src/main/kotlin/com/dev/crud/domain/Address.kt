@@ -23,9 +23,9 @@ class Address(
     var state: String,
 
     @Column(name = "bairro")
-    var bairro: String,
+    var neighborhood: String,
 
-    @OneToOne
+    @OneToOne(mappedBy = "address")
     var user: User
 ) {
 

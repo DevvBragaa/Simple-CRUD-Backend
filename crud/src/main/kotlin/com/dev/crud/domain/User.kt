@@ -1,15 +1,17 @@
 package com.dev.crud.domain
 
+import com.dev.crud.util.EnumRole
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.time.LocalDateTime
 
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @SequenceGenerator(name = "seq_user", initialValue = 1, allocationSize = 1)
 class User(
     @Id
@@ -17,11 +19,8 @@ class User(
     @Column(name = "id", nullable = false)
     var id: Long? = null,
 
-    @Column(name = "username")
-    var username: String,
-
     @Column(name = "password")
-    var password: String,
+    var passCode: String,
 
     @Column(name = "name")
     var name: String,
@@ -33,8 +32,8 @@ class User(
     var email: String,
 
 
-    @OneToOne
-    @Column(name = "address")
+    @OneToOne(cascade = [CascadeType.MERGE, CascadeType.PERSIST])
+    @JoinColumn(name = "address_id")
     var address: Address,
 
     @CreationTimestamp
@@ -43,18 +42,26 @@ class User(
 
     @UpdateTimestamp
     @Column(name = "updatedAt")
-    var updatedAt: LocalDateTime?
+    var updatedAt: LocalDateTime?,
+
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    var role: List<EnumRole>
+
 ) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        TODO("Not yet implemented")
+        return this.role
+            .map {
+                SimpleGrantedAuthority(it.name)
+            }.toMutableList()
     }
 
     override fun getPassword(): String {
-        return this.password
+        return this.passCode
     }
 
     override fun getUsername(): String {
-        return this.username
+        return this.email
     }
 
     override fun isAccountNonLocked(): Boolean {
