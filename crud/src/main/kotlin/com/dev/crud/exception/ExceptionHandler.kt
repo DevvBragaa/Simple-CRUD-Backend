@@ -30,11 +30,40 @@ class ExceptionHandler {
         request: HttpServletRequest
     ): ErrorView {
         return ErrorView(
-            status = HttpStatus.BAD_REQUEST.value(),
-            error = HttpStatus.BAD_REQUEST.name,
+            status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            error = HttpStatus.INTERNAL_SERVER_ERROR.name,
             message = exception.message,
             path = request.servletPath
         )
     }
+
+    @ExceptionHandler(NotFoundException::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    fun handleNotFoundException(
+        exception: InternalServerErrorException,
+        request: HttpServletRequest
+    ): ErrorView {
+        return ErrorView(
+            status = HttpStatus.NOT_FOUND.value(),
+            error = HttpStatus.NOT_FOUND.name,
+            message = exception.message,
+            path = request.servletPath
+        )
+    }
+
+    @ExceptionHandler(AuthenticationException::class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    fun handleAuthenticationException(
+        exception: AuthenticationException,
+        request: HttpServletRequest
+    ): ErrorView {
+        return ErrorView(
+            status = HttpStatus.FORBIDDEN.value(),
+            error = HttpStatus.FORBIDDEN.name,
+            message = exception.message,
+            path = request.servletPath
+        )
+    }
+
 
 }
