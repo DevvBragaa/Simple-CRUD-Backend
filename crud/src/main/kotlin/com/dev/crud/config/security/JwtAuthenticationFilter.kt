@@ -1,7 +1,5 @@
-package com.dev.crud.config
+package com.dev.crud.config.security
 
-import com.dev.crud.config.security.JwtService
-import com.dev.crud.config.security.UserDetailService
 import com.dev.crud.exception.AuthenticationException
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest

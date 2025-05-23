@@ -12,15 +12,19 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/user")
-class usuarioController (
+class usuarioController(
     private val service: UserService
-){
+) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createUser(
         @RequestBody userDto: UserDto
-    ): Long{
-        return service.addUser(userDto = userDto)
+    ): Long {
+        return try {
+            service.addUser(userDto = userDto)
+        } catch (e: Exception) {
+            throw e
+        }
     }
 }

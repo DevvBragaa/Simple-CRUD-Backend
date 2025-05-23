@@ -1,6 +1,5 @@
 package com.dev.crud.domain
 
-import com.dev.crud.util.EnumRole
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
@@ -35,24 +34,23 @@ class User(
     @OneToOne(cascade = [CascadeType.MERGE, CascadeType.PERSIST])
     @JoinColumn(name = "address_id")
     var address: Address,
+    @UpdateTimestamp
+    @Column(name = "updatedAt")
+    var updatedAt: LocalDateTime?,
 
     @CreationTimestamp
     @Column(name = "createdAt")
     var createdAt: LocalDateTime,
 
-    @UpdateTimestamp
-    @Column(name = "updatedAt")
-    var updatedAt: LocalDateTime?,
 
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    var role: List<EnumRole>
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.EAGER)
+    var role: List<UserRole> = mutableListOf()
 
 ) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return this.role
             .map {
-                SimpleGrantedAuthority(it.name)
+                SimpleGrantedAuthority(it.role.roleName)
             }.toMutableList()
     }
 
@@ -75,6 +73,4 @@ class User(
     override fun isEnabled(): Boolean {
         return true
     }
-
-
 }

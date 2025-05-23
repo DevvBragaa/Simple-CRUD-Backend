@@ -6,6 +6,7 @@ import com.dev.crud.exception.BadRequestException
 import com.dev.crud.exception.InternalServerErrorException
 import com.dev.crud.mapper.formMapper.UserFormMapper
 import com.dev.crud.repository.UserRepository
+import jakarta.transaction.Transactional
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -19,6 +20,7 @@ class UserServiceImpl(
     private val bcrypt = BCryptPasswordEncoder()
 
 
+    @Transactional
     override fun addUser(userDto: UserDto): Long {
         validateDto(userDto)
         val user = mapper.map(userDto)

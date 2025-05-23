@@ -1,7 +1,7 @@
 package com.dev.crud.dto
 
 import com.dev.crud.domain.Address
-import com.dev.crud.util.EnumRole
+import com.dev.crud.enums.EnumRole
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
