@@ -1,6 +1,7 @@
 package com.dev.crud.domain
 
 import com.dev.crud.enums.EnumRole
+import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
 
 @Entity
@@ -12,12 +13,10 @@ class UserRole (
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    val user: User,
+    @JsonBackReference
+    var user: User,
 
     @Column(name = "role")
     var role: EnumRole
-
-
-
 ){
 }

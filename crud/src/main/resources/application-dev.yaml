@@ -1,3 +1,6 @@
+server:
+  port: 9090
+
 spring:
   datasource:
     driverClassName: org.h2.Driver
@@ -24,6 +27,9 @@ spring:
           security: DEBUG
           web: DEBUG
 
+  output:
+    ansi:
+      enabled: ALWAYS
 secret:
   key: c5LqTIYWcMOv6Bu3qQZ25m+oOWrUADLowFaiaZ3ZYSY=
   expiration: 90000000

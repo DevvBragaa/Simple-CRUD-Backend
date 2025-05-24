@@ -1,5 +1,6 @@
 package com.dev.crud.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
 
 
@@ -26,6 +27,7 @@ class Address(
     var neighborhood: String,
 
     @OneToOne(mappedBy = "address")
+    @JsonBackReference
     var user: User
 ) {
 

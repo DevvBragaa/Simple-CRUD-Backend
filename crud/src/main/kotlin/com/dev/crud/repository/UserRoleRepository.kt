@@ -1,12 +1,10 @@
 package com.dev.crud.repository
 
-import com.dev.crud.domain.User
+import com.dev.crud.domain.UserRole
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
-import java.util.*
 
 
 @Repository
-interface UserRepository : JpaRepository<User, Long> {
-    fun findByEmail(email: String): User?
+interface UserRoleRepository : JpaRepository<UserRole, Long> {
 }

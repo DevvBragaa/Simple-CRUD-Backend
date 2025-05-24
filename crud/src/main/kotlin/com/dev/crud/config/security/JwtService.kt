@@ -65,7 +65,6 @@ class JwtService(
         return expiration
     }
 
-
     fun isTokenValid(token: String, userDetails: UserDetails): Boolean {
         val username = extractUsername(token)
         return username.equals(userDetails.username) && !isTokenExpired(token)

@@ -1,5 +1,6 @@
 package com.dev.crud.domain
 
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
@@ -31,8 +32,9 @@ class User(
     var email: String,
 
 
-    @OneToOne(cascade = [CascadeType.MERGE, CascadeType.PERSIST])
+    @OneToOne(cascade = [CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE])
     @JoinColumn(name = "address_id")
+    @JsonManagedReference
     var address: Address,
     @UpdateTimestamp
     @Column(name = "updatedAt")
@@ -44,11 +46,12 @@ class User(
 
 
     @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.EAGER)
-    var role: List<UserRole> = mutableListOf()
+    @JsonManagedReference
+    var roles: MutableList<UserRole> = mutableListOf()
 
 ) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return this.role
+        return this.roles
             .map {
                 SimpleGrantedAuthority(it.role.roleName)
             }.toMutableList()

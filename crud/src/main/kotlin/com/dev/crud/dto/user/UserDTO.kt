@@ -1,12 +1,12 @@
-package com.dev.crud.dto
+package com.dev.crud.dto.user
 
 import com.dev.crud.domain.Address
-import com.dev.crud.enums.EnumRole
+import com.dev.crud.domain.UserRole
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 
-data class UserDto(
+data class UserDTO(
     var name: String,
     var phone: String,
     @Email
@@ -16,8 +16,7 @@ data class UserDto(
     var password: String,
     @NotNull
     var address: Address,
-    var role: List<EnumRole>
+    var roles: MutableList<UserRole>? = mutableListOf()
 ) {
-
 
 }

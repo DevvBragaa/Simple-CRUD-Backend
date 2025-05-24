@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 
 @Component
-class JwtAuthenticationFilter(
+class JwtAuthorizationFilter(
     private val jwtService: JwtService,
     private val userDetailService: UserDetailService
 ) : OncePerRequestFilter() {
@@ -28,14 +28,13 @@ class JwtAuthenticationFilter(
             filterChain.doFilter(request, response)
             return
         }
-
         try {
             val token = authHeader.substring(7)
             val userEmail = jwtService.extractUsername(token)
             val authentication = SecurityContextHolder.getContext().authentication
             if (userEmail != null && authentication == null) {
                 val userDetails = userDetailService.loadUserByUsername(userEmail)
-                if (jwtService.isTokenValid(token, userDetails)) {
+                if (jwtService.isTokenValid(token, userDetails) ) {
                     val authToken = UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,

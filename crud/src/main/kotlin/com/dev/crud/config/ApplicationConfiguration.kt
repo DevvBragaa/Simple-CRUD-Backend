@@ -31,7 +31,6 @@ class ApplicationConfiguration(
         val authProvider: DaoAuthenticationProvider = DaoAuthenticationProvider()
         authProvider.setUserDetailsService(userDetailService)
         authProvider.setPasswordEncoder(bcryptPasswordEncoder())
-
         return authProvider
     }
 }
