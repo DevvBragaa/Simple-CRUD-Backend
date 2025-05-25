@@ -74,12 +74,13 @@ jobs:
       - name: Run SonarCloud Analysis with Maven
         working-directory: ./crud
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Necessário para integração com PRs
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GH }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
             -Dsonar.projectKey=devvbragaa_simple-crud-backend \
             -Dsonar.organization=devvbragaa \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.sources=src \
+            -Dsonar.sources=src/main/kotlin \
+            -Dsonar.tests=src/test/kotlin \
             -Dsonar.sourceEncoding=UTF-8
