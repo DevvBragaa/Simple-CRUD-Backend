@@ -76,7 +76,6 @@ class UserServiceImpl(
         }
     }
 
-
     @Transactional
     override fun deleteUser(id: Long) {
         repository.deleteById(id)
@@ -86,7 +85,6 @@ class UserServiceImpl(
         val user = repository.findById(id).orElseThrow { throw NotFoundException("User not found") }
         return viewMapper.mapViewUser(user)
     }
-
 
     @Transactional(readOnly = true)
     override fun listUsers(): List<UserDTO> {
