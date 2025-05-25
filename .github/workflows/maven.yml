@@ -8,22 +8,6 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  sonarqube:
-    name: SonarQube Scan
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          projectBaseDir: ./crud
-
   preflight:
     runs-on: ubuntu-latest
     steps:
@@ -72,6 +56,23 @@ jobs:
             echo "Build failed. Please check your changes and try again."
             exit 1
           fi
+
+  sonarqube:
+   name: SonarQube Scan
+   runs-on: ubuntu-latest
+   needs: build
+   steps:
+     - name: Checkout code
+       uses: actions/checkout@v4
+       with:
+         fetch-depth: 0
+
+     - name: SonarQube Scan
+       uses: SonarSource/sonarqube-scan-action@v5
+       env:
+         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+       with:
+         projectBaseDir: ./crud
 
       
 
